@@ -2,7 +2,7 @@
 
 **Transparent, Reproducible Agentic Collaboration & Experimentation**
 
-TRACE is a provider-neutral development protocol for human + agent teams working on consequential software, research, and experiments.
+TRACE is an experimental, provider-neutral protocol for human + agent teams working on consequential software, research, and experiments.
 
 Its central premise is simple:
 
@@ -120,7 +120,9 @@ The protocol should remain lighter than the risk it is controlling.
 
 TRACE is being extracted from real development work rather than designed as a framework first. Practices should become protocol-level only after they survive reuse across materially different projects.
 
-The first reference case is expected to come from the Performance Manuscript experiment. Additional cases can test whether the same boundaries generalize to projects such as DRAGON and Pyxis.
+There is currently **no accepted reference case** in the repository. An initial Performance Manuscript case-study shell was merged and then reverted; it remains in Git history as historical exploration rather than current TRACE evidence.
+
+Future case studies should enter TRACE only when their evidence is durable enough to support the protocol claim being tested and their disclosure boundaries are appropriate for this public repository.
 
 ## Development rule
 

@@ -87,6 +87,8 @@ TRACE uses a seven-stage cycle:
 
 See [`PROTOCOL.md`](PROTOCOL.md) for the operational version.
 
+See [`PRIOR_ART.md`](PRIOR_ART.md) for the independent 2026 TRACE paper, the naming collision, and the reusable commitment-record ideas it introduces.
+
 ## Principles
 
 The protocol is intentionally small. Its current invariants are documented in [`PRINCIPLES.md`](PRINCIPLES.md), including:

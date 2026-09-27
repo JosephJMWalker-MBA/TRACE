@@ -87,6 +87,8 @@ TRACE uses a seven-stage cycle:
 
 See [`PROTOCOL.md`](PROTOCOL.md) for the operational version.
 
+For cross-provider repository entry and durable handoff, see [`AI_ONBOARDING.md`](AI_ONBOARDING.md). TRACE treats accurate onboarding across different AI systems as part of reproducibility: model-specific instruction files are discovery adapters, while canonical project authority remains in ordinary durable repository documentation.
+
 See [`PRIOR_ART.md`](PRIOR_ART.md) for the independent 2026 TRACE paper, the naming collision, and the reusable commitment-record ideas it introduces.
 
 ## Principles

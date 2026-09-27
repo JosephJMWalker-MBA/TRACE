@@ -207,3 +207,16 @@ Useful future case-study questions include:
 The goal is not to make every model behave identically.
 
 The goal is to make the repository sufficiently explicit that different capable systems can recover the same important constraints without relying on private conversational continuity.
+
+## 9. Orientation-variance evaluation
+
+The profile repository now uses a deterministic front-door router (`AI_START_HERE.md` plus a machine-readable routing map) to reduce arbitrary repository discovery choices before reasoning begins.
+
+TRACE treats the effectiveness of that pattern as an empirical question rather than an assumption.
+
+See:
+
+`experiments/orientation-variance/PREREGISTRATION_DRAFT.md`
+
+The experiment tests whether constrained orientation reduces task-irrelevant response variance across providers, model versions, and fresh sessions without merely making wrong answers more consistent.
+

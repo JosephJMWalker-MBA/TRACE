@@ -1,0 +1,708 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:trace:schema:orientation-lineage:0.1.0",
+  "title": "TRACE Orientation Lineage Record",
+  "description": "Draft schema for declared and observable inquiry conditions in agent-assisted inquiry. It records orientation, authority selection, evidence acquisition, access order, tool-visible actions, uncertainty, human intervention, and output references without attempting to capture private chain-of-thought.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "timestamp",
+    "run_status",
+    "task",
+    "environment",
+    "declared",
+    "observed"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "run_status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "aborted",
+        "failed",
+        "invalidated"
+      ]
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_hash",
+        "task_hash_algorithm"
+      ],
+      "properties": {
+        "task_hash": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_hash_algorithm": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_class": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task_artifact_uri": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri-reference"
+        },
+        "task_text": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional public or non-sensitive task text. Omit or null when the task is stored separately."
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "model",
+        "model_version",
+        "model_version_source"
+      ],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_version": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Exact model version when exposed. Null is preferred to invention when the provider does not expose a version."
+        },
+        "model_version_source": {
+          "type": "string",
+          "enum": [
+            "tool_reported",
+            "provider_reported",
+            "user_supplied",
+            "not_exposed",
+            "unknown"
+          ]
+        },
+        "instruction_environment": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "instruction_environment_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "permissions_surface": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "permissions_surface_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "router_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "router_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "declared": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_routes",
+        "selected_route",
+        "stated_authority",
+        "insufficient_orientation"
+      ],
+      "properties": {
+        "candidate_routes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "selected_route": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "route_rationale_summary": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Brief externally declared rationale for the route choice. This field is not a request for private chain-of-thought."
+        },
+        "stated_authority": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "declared_uncertainty": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "insufficient_orientation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "observed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation_boundary",
+        "routing_state",
+        "repositories",
+        "authority_artifacts",
+        "evidence_artifacts",
+        "access_order",
+        "tool_actions",
+        "human_overrides"
+      ],
+      "properties": {
+        "observation_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "telemetry_source",
+            "completeness",
+            "known_blind_spots"
+          ],
+          "properties": {
+            "telemetry_source": {
+              "type": "string",
+              "minLength": 1
+            },
+            "completeness": {
+              "type": "string",
+              "enum": [
+                "complete_within_instrumented_surface",
+                "partial",
+                "unknown"
+              ]
+            },
+            "known_blind_spots": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "routing_state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "router_version",
+            "route_selected"
+          ],
+          "properties": {
+            "router_version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "route_selected": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "route_source": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Instrumented source of the observed route, when available."
+            }
+          }
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/repository"
+          }
+        },
+        "authority_artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        },
+        "evidence_artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        },
+        "reference_artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          },
+          "default": []
+        },
+        "files_skipped_by_rule": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          },
+          "default": []
+        },
+        "access_order": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/access_event"
+          }
+        },
+        "tool_actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/tool_action"
+          }
+        },
+        "human_overrides": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/human_override"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "answer_artifact_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "answer_hash_algorithm": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "answer_artifact_uri": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri-reference"
+        },
+        "review_state": {
+          "type": "string",
+          "enum": [
+            "unreviewed",
+            "under_review",
+            "approved",
+            "rejected",
+            "superseded"
+          ]
+        }
+      }
+    },
+    "lineage_signature": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Optional derived comparison aid over T,R,A,E,O,I,P. It does not replace the raw lineage record and should not be treated as authority.",
+      "additionalProperties": false,
+      "required": [
+        "basis_status",
+        "signature_version",
+        "algorithm",
+        "canonicalization",
+        "value",
+        "components"
+      ],
+      "properties": {
+        "basis_status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "partial",
+            "not_computed"
+          ]
+        },
+        "signature_version": {
+          "type": "string"
+        },
+        "algorithm": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "canonicalization": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "components": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "task",
+            "route",
+            "authority",
+            "evidence",
+            "order",
+            "instruction_environment",
+            "permissions_surface"
+          ],
+          "properties": {
+            "task": {
+              "$ref": "#/$defs/signature_component"
+            },
+            "route": {
+              "$ref": "#/$defs/signature_component"
+            },
+            "authority": {
+              "$ref": "#/$defs/signature_component"
+            },
+            "evidence": {
+              "$ref": "#/$defs/signature_component"
+            },
+            "order": {
+              "$ref": "#/$defs/signature_component"
+            },
+            "instruction_environment": {
+              "$ref": "#/$defs/signature_component"
+            },
+            "permissions_surface": {
+              "$ref": "#/$defs/signature_component"
+            }
+          }
+        },
+        "omitted_or_uncertain_components": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "task",
+              "route",
+              "authority",
+              "evidence",
+              "order",
+              "instruction_environment",
+              "permissions_surface"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "run_status": {
+            "const": "completed"
+          }
+        },
+        "required": [
+          "run_status"
+        ]
+      },
+      "then": {
+        "required": [
+          "outputs"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_id"
+      ],
+      "properties": {
+        "repository_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository_sha": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "repository_snapshot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "repository_uri": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri-reference"
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "artifact_role"
+      ],
+      "properties": {
+        "artifact_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repository_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "artifact_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "artifact_hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "artifact_hash_algorithm": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "artifact_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "artifact_role": {
+          "type": "string",
+          "enum": [
+            "authority",
+            "evidence",
+            "reference",
+            "excluded"
+          ]
+        }
+      }
+    },
+    "access_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "action"
+      ],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timestamp": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "artifact_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "repository_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "action": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "tool_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "tool_name",
+        "action"
+      ],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timestamp": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "tool_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "human_override": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "override_type",
+        "reason"
+      ],
+      "properties": {
+        "timestamp": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "override_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "affected_stage": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "scope",
+            "route",
+            "authority",
+            "evidence",
+            "order",
+            "environment",
+            "output",
+            null
+          ]
+        }
+      }
+    },
+    "signature_component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "hash"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "observed",
+            "derived",
+            "unknown",
+            "not_applicable"
+          ]
+        },
+        "hash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
